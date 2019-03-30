@@ -3,6 +3,7 @@ import errSerializer from 'bunyan-serializer-error'
 import {NextFunction, Request, Response} from 'express'
 import {validationResult} from 'express-validator/check'
 import {logger as loggerConfig} from '../config'
+import {IUserSchema, UserModel} from '../model/user'
 
 const Logger = bunyan.createLogger({
   ...loggerConfig('middleware'),
@@ -20,7 +21,8 @@ declare global {
   namespace Express {
     // tslint:disable-next-line
     interface Request {
-      logger: bunyan
+      logger: bunyan,
+      user: IUserSchema
     }
     // tslint:disable-next-line
     interface Response {
@@ -28,7 +30,6 @@ declare global {
     }
   }
 }
-
 export function haruhiMiddleware(req: Request, res: Response, next: NextFunction) {
   res.missing = function missing(field: string | string[]) {
     return res.status(400)
@@ -38,6 +39,20 @@ export function haruhiMiddleware(req: Request, res: Response, next: NextFunction
   }
   req.logger = Logger.child({req})
   next()
+}
+
+export async function checkLogin(req, res, next) {
+  if (!req.session.uid) {
+    return res.status(401)
+      .json({
+        message: 'need login',
+      })
+  } else {
+    const user = await UserModel.findById(req.session.uid)
+    req.user = user.toObject()
+    req.user.userId = user._id.toString()
+    next()
+  }
 }
 
 export function checkValidationResult(req: Request, res: Response, next: NextFunction) {

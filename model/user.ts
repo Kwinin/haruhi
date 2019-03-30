@@ -19,6 +19,7 @@ export interface IUserModel extends Model<IUserDocument> {
 }
 
 const schema = new mongoose.Schema({
+  _id: Types.ObjectId,
   username: {
     type: String,
     unique: true,

@@ -7,6 +7,7 @@ import {database as Config} from './config'
 
 Mongoose.connect(`mongodb://${Config.mongodb.host}/${Config.mongodb.database}`)
 
+Mongoose.set('debug', true)
 export const redis = new Redis(Config.redis)
 
 export const mongoose = Mongoose

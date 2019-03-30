@@ -1,24 +1,20 @@
 'use strict'
 
-import {Response} from 'express'
+import {NextFunction, Response} from 'express'
 import Router from 'express-promise-router'
-import {IServicedRequest} from '../module/middlewares'
+import {checkLogin, IServicedRequest} from '../module/middlewares'
 import {UserService} from '../service/user'
-const router = Router()
 
 type Request = IServicedRequest<UserService>
-
-router.get('/', async (req, res) => {
-  await new Promise((resolve, reject) => {
-    setTimeout(resolve, 2000)
-  })
-  res.json({message: 'await'})
+const router = Router()
+router.use(checkLogin)
+router.use((req: Request, res: Response, next: NextFunction) => {
+  req.service = new UserService(req.user)
+  next()
 })
-
-router.get('/errors', async (req: Request, res: Response) => {
-  const err = new Error('some error')
-  err['foo'] = 'bar'
-  throw err
+router.get('/test', async (req: Request, res: Response) => {
+  const userId = await req.service.test()
+  res.json(userId)
 })
 
 module.exports = router
