@@ -1,5 +1,6 @@
 'use strict'
 import * as bodyParser from 'body-parser'
+import {errors} from 'celebrate'
 import * as history from 'connect-history-api-fallback'
 import * as connectRedis from 'connect-redis'
 import * as cookieParser from 'cookie-parser'
@@ -35,7 +36,7 @@ app.use(session({
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
-app.use(mongoSanitize)
+app.use(mongoSanitize())
 app.use(haruhiMiddleware)
 
 // tslint:disable-next-line:no-var-requires
@@ -52,24 +53,26 @@ if (app.get('env') === 'development') {
 }
 
 // tslint:disable:no-var-requires
-if (app.get('env') === 'development') {
-  const webpack       = require('webpack')
-  const webpackConfig = require('./client/webpack.conf')
-  const compiler      = webpack(webpackConfig)
-  const devMiddleware = require('webpack-dev-middleware')(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    stats     : {
-      chunks: false,
-      colors: true,
-    },
-  })
-  const hotMiddleware = require('webpack-hot-middleware')(compiler)
-  app.use(devMiddleware)
-  app.use(hotMiddleware)
-}
+// if (app.get('env') === 'development') {
+//   const webpack       = require('webpack')
+//   const webpackConfig = require('./client/webpack.conf')
+//   const compiler      = webpack(webpackConfig)
+//   const devMiddleware = require('webpack-dev-middleware')(compiler, {
+//     publicPath: webpackConfig.output.publicPath,
+//     stats     : {
+//       chunks: false,
+//       colors: true,
+//     },
+//   })
+//   const hotMiddleware = require('webpack-hot-middleware')(compiler)
+//   app.use(devMiddleware)
+//   app.use(hotMiddleware)
+// }
 // tslint:enable:no-var-requires
 
-app.use(express.static(path.join(__dirname, 'public')))
+if (app.get('env') === 'development') {
+  app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')))
+}
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -78,7 +81,7 @@ app.use((req, res, next) => {
       message: 'not found',
     })
 })
-
+app.use(errors())
 // error handler
 if (app.get('env') !== 'production') {
   app.use((err, req, res, next) => {
