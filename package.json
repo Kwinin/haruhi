@@ -18,7 +18,7 @@
     "lint"
   ],
   "dependencies": {
-    "@crainty/except-rpc": "0.0.1",
+    "@crainty/except-rpc": "0.0.2",
     "apidoc": "^0.17.7",
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.3",
