@@ -18,6 +18,7 @@
     "lint"
   ],
   "dependencies": {
+    "@crainty/except-rpc": "0.0.1",
     "apidoc": "^0.17.7",
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.3",
@@ -25,6 +26,7 @@
     "bunyan": "^1.8.12",
     "bunyan-pretty-stream": "^1.0.1",
     "bunyan-serializer-error": "0.0.1",
+    "carrotmq": "^6.2.1",
     "celebrate": "^9.1.0",
     "connect-history-api-fallback": "^1.6.0",
     "connect-redis": "^3.4.1",

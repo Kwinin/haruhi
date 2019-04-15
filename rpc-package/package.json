@@ -1,0 +1,17 @@
+{
+  "name": "@crainty/except-rpc",
+  "version": "0.0.2",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "author": "kwinin <chenchongjian95@163.com>",
+  "license": "ISC",
+  "peerDependencies": {
+    "carrotmq": "*"
+  }
+}

@@ -149,7 +149,8 @@
       "config/**",
       "test/**",
       "client/dist/**",
-      "apidoc/**"
+      "apidoc/**",
+      "rpc-package/lib/**"
     ]
   }
 }

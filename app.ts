@@ -12,6 +12,7 @@ import * as logger from 'morgan'
 import * as path from 'path'
 import * as Config from './config'
 import {haruhiMiddleware} from './module/middlewares'
+import './module/rpc'
 
 const app = express()
 app.set('trust proxy', ['loopback', 'uniquelocal'])
