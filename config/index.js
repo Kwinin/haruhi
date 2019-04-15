@@ -6,6 +6,7 @@ const configure = {
   database: require('./default/database'),
   session: require('./default/session'),
   logger: require('./default/logger'),
+  rabbitmq: require('./default/rabbitmq'),
 }
 
 const index = Object.keys(configure);
@@ -19,5 +20,4 @@ index.forEach((config) => {
     // tslint:disable-next-line
   } catch {}
 })
-
 module.exports = configure

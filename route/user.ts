@@ -13,8 +13,8 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   next()
 })
 router.get('/test', async (req: Request, res: Response) => {
-  const userId = await req.service.test()
-  res.json(userId)
+  const data = await req.service.test()
+  res.json(data)
 })
 
 module.exports = router
